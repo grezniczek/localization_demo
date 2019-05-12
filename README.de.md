@@ -8,7 +8,7 @@ Ein Externes Modul für REDCap zur Demonstration der Lokalisierungstechniken.
 
 ## Installation
 
-- Dieses Repo nach `<redcap-root>/modules/i18n_demo_v<version-number>` klonen.
+- Dieses Repo nach `<redcap-root>/modules/localization_demo_v<version-number>` klonen.
 - Unter _Control Center > Technical / Developer Tools > External Modules_ das Modul 'Lokalisierungs-Demo' aktivieren.
 
 ## Configuration

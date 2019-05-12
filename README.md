@@ -8,7 +8,7 @@ A REDCap External Module demonstrating EM localization.
 
 ## Installation
 
-- Clone this repo into `<redcap-root>/modules/i18n_demo_v<version-number>`.
+- Clone this repo into `<redcap-root>/modules/localization_demo_v<version-number>`.
 - Go to _Control Center > Technical / Developer Tools > External Modules_ and enable Localization Demo.
 
 ## Configuration

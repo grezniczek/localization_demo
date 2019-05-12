@@ -122,9 +122,9 @@ class EMi18nPolyfill {
 		$js_key = json_encode(self::constructLanguageKey($this->module->PREFIX, $key));
 		// Add script to add key/value pair to $lang.
 		echo '<script>$lang.add('. $js_key . ', ' . $js_value . ')</script>';
-    }
-    
-  	/**
+		}
+		
+    /**
 	 * Generates a key for the $lang global from a module prefix and a module-scope language file key.
 	 */
 	private static function constructLanguageKey($prefix, $key) {
@@ -224,6 +224,7 @@ class EMi18nPolyfill {
 class TranslatableExternalModule extends AbstractExternalModule {
     
     private $i18n_polyfill = null;
+    private $native = false;
 
     function __construct($default_language = "English") {
        
@@ -242,63 +243,72 @@ class TranslatableExternalModule extends AbstractExternalModule {
             $this->i18n_polyfill->load($default_language);
         } 
         else {
-			// All good. The available EM framework supports localization.
+            // All good. The available EM framework supports localization.
+            $this->native = true;
+        }
+    }
+    
+    /**
+     * Checks whether REDCap has native localization support.
+     * @return bool True when native localization support is present, false otherwise.
+     */
+    public function hasNativeLocalizationSupport() {
+        return $this->native;
+    }
+
+    /**
+     * Returns the translation for the given language file key.
+     * 
+     * @param string $key The language file key.
+     * @param mixed $values The values to be used for interpolation. If the first parameter is a (sequential) array, it's members will be used and any further parameters ignored.
+     * 
+     * @return string The translation (with interpolations).
+     */
+        function tt($key, ...$values) {
+        // Proxy.
+        if (count($values)) {
+            return $this->i18n_polyfill == null ? $this->framework->tt($key, $values) : $this->i18n_polyfill->tt($key, $values);
+        }
+        else {
+            return $this->i18n_polyfill == null ? $this->framework->tt($key) : $this->i18n_polyfill->tt($key);
+        }
+    }
+    
+    /**
+     * Declares to the EM framework that language features support should be added for JavaScript.
+     * Call this before using any of the features such as addToJSLanguageStore().
+     */
+    function useJSLanguageFeatures() {
+        // Proxy.
+        $this->i18n_polyfill == null ? $this->framework->useJSLanguageFeatures() : $this->i18n_polyfill->useJSLanguageFeatures();
+    }
+
+    /**
+     * Adds an interpolated language string to the JavaScript store by its key.
+     * To add a raw value, do not supply any values.
+     * 
+     * @param string $key The language key.
+     * @param mixed $values The values to be used for interpolation.
+     */
+    public function addToJSLanguageStore($key, ...$values) {
+        // Proxy.
+        if (count($values)) {
+            $this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key, $values) : $this->i18n_polyfill->addToJSLanguageStore($key, $values);
+        }
+        else {
+            $this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key) : $this->i18n_polyfill->addToJSLanguageStore($key);
         }
     }
 
     /**
-	 * Returns the translation for the given language file key.
-	 * 
-	 * @param string $key The language file key.
-	 * @param mixed $values The values to be used for interpolation. If the first parameter is a (sequential) array, it's members will be used and any further parameters ignored.
-	 * 
-	 * @return string The translation (with interpolations).
-	 */
-    function tt($key, ...$values) {
-		// Proxy.
-		if (count($values)) {
-			return $this->i18n_polyfill == null ? $this->framework->tt($key, $values) : $this->i18n_polyfill->tt($key, $values);
-		}
-		else {
-			return $this->i18n_polyfill == null ? $this->framework->tt($key) : $this->i18n_polyfill->tt($key);
-		}
-	}
-	
-	/**
-	 * Declares to the EM framework that language features support should be added for JavaScript.
-	 * Call this before using any of the features such as addToJSLanguageStore().
-	 */
-	function useJSLanguageFeatures() {
-		// Proxy.
-		$this->i18n_polyfill == null ? $this->framework->useJSLanguageFeatures() : $this->i18n_polyfill->useJSLanguageFeatures();
-	}
-
-	/**
-	 * Adds an interpolated language string to the JavaScript store by its key.
-	 * To add a raw value, do not supply any values.
-	 * 
-	 * @param string $key The language key.
-	 * @param mixed $values The values to be used for interpolation.
-	 */
-	public function addToJSLanguageStore($key, ...$values) {
-		// Proxy.
-		if (count($values)) {
-			$this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key, $values) : $this->i18n_polyfill->addToJSLanguageStore($key, $values);
-		}
-		else {
-			$this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key) : $this->i18n_polyfill->addToJSLanguageStore($key);
-		}
-	}
-
-	/**
-	 * Adds a value directly to the $lang JavaScript store. 
-	 * Value can be anything (string, boolean, array).
-	 * 
-	 * @param string $key The language key.
-	 * @param mixed $value The corresponding value.
-	 */
-	public function addNewToJSLanguageStore($key, $value) {
-		// Proxy.
-		$this->i18n_polyfill == null ? $this->framework->addNewToJSLanguageStore($key, $value) : $this->i18n_polyfill->addNewToJSLanguageStore($key, $value);
-	}
+     * Adds a value directly to the $lang JavaScript store. 
+     * Value can be anything (string, boolean, array).
+     * 
+     * @param string $key The language key.
+     * @param mixed $value The corresponding value.
+     */
+    public function addNewToJSLanguageStore($key, $value) {
+            // Proxy.
+            $this->i18n_polyfill == null ? $this->framework->addNewToJSLanguageStore($key, $value) : $this->i18n_polyfill->addNewToJSLanguageStore($key, $value);
+    }
 }

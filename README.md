@@ -13,8 +13,10 @@ A REDCap External Module demonstrating EM localization.
 
 ## Configuration
 
-Specify a message text and how it should be logged to the browser's console (info, warning, error).
+- Set the text of a message and how it should be logged to the browser's console (info, warning, error).
+- Set how verbose the module is about the whole process (mostly nonsense, though).
+- Let the module show that it can count up from 1 to a given number.
 
 ## Effect
 
-When enabled, it outputs a message to the browser's console.
+When enabled, it outputs some stuff -depending on the settings- to the browser's console. Very unspectacular, really, if it weren't.

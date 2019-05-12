@@ -19,21 +19,33 @@
     "enable-every-page-hooks-on-system-pages": true,
     "system-settings": [
         {
+            "key": "verbose",
+            "name": "Be very verbose about everything that is happening",
+            "tt_name": "verbose>_prompt",
+            "type": "checkbox"
+        },
+        {
             "key": "msg",
             "name": "Message to log to the console",
             "tt_name": "msg_prompt",
             "type": "text"
         },
         {
-            "key": "type",
-            "name": "Log the message as",
-            "tt_name": "msg_type",
+            "key": "msg_type",
+            "name": "Log the message as (defaults to 'Info')",
+            "tt_name": "msg_type_prompt",
             "type": "dropdown",
             "choices": [
                 { "value": "info", "name": "Info", "tt_name": "msg_type_info" },
-                { "value": "warning", "name": "Warning", "tt_name": "msg_type_warning" },
+                { "value": "warn", "name": "Warning", "tt_name": "msg_type_warning" },
                 { "value": "error", "name": "Error", "tt_name": "msg_type_error"}
             ]
+        },
+        {
+            "key": "count",
+            "name": "Count up to",
+            "tt_name": "count_prompt",
+            "type": "text"
         }
     ],
     "project-settings": [

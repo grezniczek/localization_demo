@@ -30,7 +30,14 @@ class EMi18nPolyfill {
     private $module;
 
     function __construct($module) {
-        $this->module = $module;
+		$this->module = $module;
+		$moduleDirName = "{$module->PREFIX}_{$module->VERSION}";
+		$thisFileDir = dirname(__FILE__);
+
+		if (strpos($thisFileDir, dirname(APP_PATH_DOCROOT)) === false ||
+			strpos($thisFileDir, $moduleDirName) === false) {
+			throw new \Exception("The 'EMi18nPolyfill' class must be included from a file that is within the directory of module '{$module->PREFIX}'.");
+		}
     }
 
 
@@ -43,7 +50,10 @@ class EMi18nPolyfill {
 	 * @return string The translation (with interpolations).
 	 */
 	public function tt($key, ...$values) {
-        
+		
+		// Check if first argument is an array.
+		if (count($values) && is_array($values[0])) $values = $values[0];
+
 		global $lang;
 
 		// Get the full key for $lang.
@@ -51,7 +61,9 @@ class EMi18nPolyfill {
 		// Now get the corresponding text.
 		$text = $lang[$lang_key];
 
-        return self::interpolateLanguageString($text, $values); 
+		return count($values) ?
+			self::interpolateLanguageString($text, $values) :
+			$text;
 	}
 
 	/**
@@ -62,10 +74,18 @@ class EMi18nPolyfill {
 		// Add $lang JS support, but only once.
 		if (!defined("EM_LANGUAGE_SUPPORT_FOR_JS_ADDED")) {
             define("EM_LANGUAGE_SUPPORT_FOR_JS_ADDED", true);
-			$fullLocalPath = __DIR__ . "redcap-localization-helper.js";
-			// Add the filemtime to the url for cache busting.
+			$fullLocalPath = dirname(__FILE__) . DS . "redcap-localization-helper.js";
+			if (!file_exists($fullLocalPath)) {
+				throw new \Exception("Could not locate 'redcap-localization-helper.js'. It must be in the same directory as 'em-i18n-polyfill.php'.");
+			}
+			// Construnct path and add the filemtime to the url for cache busting.
 			clearstatcache(true, $fullLocalPath);
-			$url = ExternalModules::$BASE_URL . "redcap-localization-helper.js?" . filemtime($fullLocalPath);
+			// Construct path.
+			$moduleDirName = $this->module->PREFIX."_".$this->module->VERSION;
+			$url = $this->module->getUrl("redcap-localization-helper.js");
+			$url = substr($url, 0, strpos($url, $moduleDirName));
+			$url .= str_replace(DS, "/", substr($fullLocalPath, strpos($fullLocalPath, $moduleDirName)));
+			$url .= "?" . filemtime($fullLocalPath);
 			echo '<script type="text/javascript" src="' . $url . '"></script>';
 			echo '<script>const $EM_LANG_PREFIX = ' . json_encode(self::EM_LANG_PREFIX) . '</script>';
 		}
@@ -79,25 +99,29 @@ class EMi18nPolyfill {
 	 * @param mixed $values The values to be used for interpolation.
 	 */
 	public function addToJSLanguageStore($key, ...$values) {
+		// Check if first argument is an array.
+		if (count($values) && is_array($values[0])) $values = $values[0];
 		// Encode for JS.
-		$js_string = json_encode($this->tt($key, $values));
+		$js_string = json_encode(count($values) ? 
+			$this->tt($key, $values) : $this->tt($key));
 		$js_key = json_encode(self::constructLanguageKey($this->module->PREFIX, $key));
 		// Add script to add key/value pair to $lang.
 		echo '<script>$lang.add('. $js_key . ', ' . $js_string . ')</script>';
 	}
 
 	/**
-	 * Adds an string directly to the $lang JavaScript store. 
+	 * Adds a value directly to the $lang JavaScript store. 
+	 * Value can be anything (string, boolean, array).
 	 * 
 	 * @param string $key The language key.
-	 * @param string $string The corresponding template string.
+	 * @param mixed $value The corresponding value.
 	 */
-	public function addNewToJSLanguageStore($key, $string) {
+	public function addNewToJSLanguageStore($key, $value) {
 		// Encode for JS.
-		$js_string = json_encode($string);
+		$js_value = json_encode($value);
 		$js_key = json_encode(self::constructLanguageKey($this->module->PREFIX, $key));
 		// Add script to add key/value pair to $lang.
-		echo '<script>$lang.add('. $js_key . ', JSON.parse(' . $js_string . '))</script>';
+		echo '<script>$lang.add('. $js_key . ', ' . $js_value . ')</script>';
     }
     
   	/**
@@ -232,7 +256,12 @@ class TranslatableExternalModule extends AbstractExternalModule {
 	 */
     function tt($key, ...$values) {
 		// Proxy.
-        return $this->i18n_polyfill == null ? $this->framework->tt($key, $values) : $this->i18n_polyfill->tt($key, $values);
+		if (count($values)) {
+			return $this->i18n_polyfill == null ? $this->framework->tt($key, $values) : $this->i18n_polyfill->tt($key, $values);
+		}
+		else {
+			return $this->i18n_polyfill == null ? $this->framework->tt($key) : $this->i18n_polyfill->tt($key);
+		}
 	}
 	
 	/**
@@ -253,17 +282,23 @@ class TranslatableExternalModule extends AbstractExternalModule {
 	 */
 	public function addToJSLanguageStore($key, ...$values) {
 		// Proxy.
-		$this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key, $values) : $this->i18n_polyfill->addToJSLanguageStore($key, $values);
+		if (count($values)) {
+			$this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key, $values) : $this->i18n_polyfill->addToJSLanguageStore($key, $values);
+		}
+		else {
+			$this->i18n_polyfill == null ? $this->framework->addToJSLanguageStore($key) : $this->i18n_polyfill->addToJSLanguageStore($key);
+		}
 	}
 
 	/**
-	 * Adds an string directly to the $lang JavaScript store. 
+	 * Adds a value directly to the $lang JavaScript store. 
+	 * Value can be anything (string, boolean, array).
 	 * 
 	 * @param string $key The language key.
-	 * @param string $string The corresponding template string.
+	 * @param mixed $value The corresponding value.
 	 */
-	public function addNewToJSLanguageStore($key, $string) {
+	public function addNewToJSLanguageStore($key, $value) {
 		// Proxy.
-		$this->i18n_polyfill == null ? $this->framework->addNewToJSLanguageStore($key, $string) : $this->i18n_polyfill->addNewToJSLanguageStore($key, $string);
+		$this->i18n_polyfill == null ? $this->framework->addNewToJSLanguageStore($key, $value) : $this->i18n_polyfill->addNewToJSLanguageStore($key, $value);
 	}
 }

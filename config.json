@@ -1,0 +1,47 @@
+{
+    "name": "Localization Demo",
+    "tt_name": "module_name",
+    "namespace": "RUB\\LocalizationDemoExternalModule",
+    "description": "A demo module to demonstrate the EM localization features.",
+    "tt_description": "module_desc",
+    "tt_docs": "module_docs",
+    "authors": [
+        {
+            "name": "Günther Rezniczek",
+            "email": "guenther.rezniczek@rub.de",
+            "institution": "Ruhr-Universität Bochum"
+        }
+    ],
+    "framework-version": 2,
+    "permissions": [
+        "redcap_every_page_top"
+    ],
+    "enable-every-page-hooks-on-system-pages": true,
+    "system-settings": [
+        {
+            "key": "msg",
+            "name": "Message to log to the console",
+            "tt_name": "msg_prompt",
+            "type": "text"
+        },
+        {
+            "key": "type",
+            "name": "Log the message as",
+            "tt_name": "msg_type",
+            "type": "dropdown",
+            "choices": [
+                { "value": "info", "name": "Info", "tt_name": "msg_type_info" },
+                { "value": "warning", "name": "Warning", "tt_name": "msg_type_warning" },
+                { "value": "error", "name": "Error", "tt_name": "msg_type_error"}
+            ]
+        }
+    ],
+    "project-settings": [
+    ],
+    "compatibility": {
+        "php-version-min": "5.6.0",
+        "php-version-max": "",
+        "redcap-version-min": "8.1.0",
+        "redcap-version-max": ""
+     }
+}

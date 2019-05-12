@@ -4,7 +4,8 @@
     "namespace": "RUB\\LocalizationDemoExternalModule",
     "description": "A demo module to demonstrate the EM localization features.",
     "tt_description": "module_desc",
-    "tt_docs": "module_docs",
+    "documentation": "README.md",
+    "tt_documentation": "module_docs",
     "authors": [
         {
             "name": "Günther Rezniczek",

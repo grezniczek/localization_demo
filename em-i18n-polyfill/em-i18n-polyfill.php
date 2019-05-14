@@ -35,15 +35,7 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
 
         function __construct($module) {
             $this->module = $module;
-            $moduleDirName = "{$module->PREFIX}_{$module->VERSION}";
-            $thisFileDir = dirname(__FILE__);
-
-            if (strpos($thisFileDir, dirname(APP_PATH_DOCROOT)) === false ||
-                strpos($thisFileDir, $moduleDirName) === false) {
-                throw new \Exception("The 'EMi18nPolyfill' class must be included from a file that is within the directory of module '{$module->PREFIX}'.");
-            }
         }
-
 
         /**
          * Returns the translation for the given language file key.
@@ -268,13 +260,25 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
                 $this->native = true;
             }
         }
-        
+
         /**
          * Checks whether REDCap has native localization support.
          * @return bool True when native localization support is present, false otherwise.
          */
         public function hasNativeLocalizationSupport() {
             return $this->native;
+        }
+
+        /**
+         * Loads a language file.
+         * This does nothing if REDCap has native EM localization support.
+         * 
+         * @param string $language The name of the language to load (case sensitive!).
+         */
+        public function load($language) {
+            if (!$this->hasNativeLocalizationSupport()) {
+                $this->i18n_polyfill->load($language);
+            }
         }
 
         /**

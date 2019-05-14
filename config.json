@@ -32,7 +32,7 @@
         {
             "key": "verbose",
             "name": "Be very verbose about everything that is happening",
-            "tt_name": "verbose>_prompt",
+            "tt_name": "verbose_prompt",
             "type": "checkbox"
         },
         {

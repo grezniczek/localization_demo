@@ -16,7 +16,18 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
 
 
     function __construct() {
-        parent::__construct("English"); // Also available: Deutsch
+        parent::__construct("English"); // Could omit, as English is the default.
+
+        if (!$this->hasNativeLocalizationSupport()) {
+            // No native support, so we have to take care of language switching ourselves.
+            $sysLang = $this->getSystemSetting("system_language");
+            $projLang = $this->getProjectId() != null ?  $this->getProjectSetting("project_language") : "";
+            $lang = strlen($projLang) ? $projLang : $sysLang;
+            if (strlen($lang) && $lang !== "English") {
+                // Only switch if set and not default.
+                $this->load($lang);
+            }
+        }
     }
 
     function redcap_every_page_top($project_id = null) {

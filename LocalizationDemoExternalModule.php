@@ -25,7 +25,7 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
             $lang = strlen($projLang) ? $projLang : $sysLang;
             if (strlen($lang) && $lang !== "English") {
                 // Only switch if set and not default.
-                $this->load($lang);
+                $this->loadLanguage($lang);
             }
         }
     }

@@ -208,7 +208,7 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
          * Loads a language file.
          * @param string $language The name of the language to load (case sensitive!).
          */
-        public function load($language) {
+        public function loadLanguage($language) {
 
             // Check the correspondig file exists.
             $path = $this->module->getModulePath(). "lang";
@@ -247,13 +247,13 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
             if (!isset($this->framework)) {
                 // Substitute the polyfill and load strings from default language.
                 $this->framework = new EMi18nPolyfill($this);
-                $this->framework->load($default_language);
+                $this->framework->loadLanguage($default_language);
             }
             else if (!method_exists($this->framework, "tt")) {
                 // Framework without localization support.
                 // Class methods will proxy to those provided by the polyfill.
                 $this->i18n_polyfill = new EMi18nPolyfill($this);
-                $this->i18n_polyfill->load($default_language);
+                $this->i18n_polyfill->loadLanguage($default_language);
             } 
             else {
                 // All good. The available EM framework supports localization.
@@ -275,9 +275,9 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
          * 
          * @param string $language The name of the language to load (case sensitive!).
          */
-        public function load($language) {
+        public function loadLanguage($language) {
             if (!$this->hasNativeLocalizationSupport()) {
-                $this->i18n_polyfill->load($language);
+                $this->i18n_polyfill->loadLanguage($language);
             }
         }
 

@@ -62,6 +62,20 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
                 $text;
         }
 
+       	/**
+         * Returns a JSON-encoded translation for the given global language key.
+         * 
+         * @param string $key The language key.
+         * @param mixed $values The values to be used for interpolation. If the first parameter is a (sequential) array, it's members will be used and any further parameters ignored.
+         * 
+         * @return string The translation (with interpolations) encoded for assignment to JS variables.
+         */
+        public function tt_js($key, ...$values) {
+            $text = count($values) ? $this->tt($key, $values) : $this->tt($key);
+            return json_encode($text);
+        }
+
+
         /**
          * Declares to the EM framework that language features support should be added for JavaScript.
          * Call this before using any of the features such as addToJSLanguageStore().
@@ -289,16 +303,42 @@ if (!defined("EM_i18n_POLYFILL_DECLARED")) {
          * 
          * @return string The translation (with interpolations).
          */
-            function tt($key, ...$values) {
+        public function tt($key, ...$values) {
             // Proxy.
             if (count($values)) {
-                return $this->i18n_polyfill == null ? $this->framework->tt($key, $values) : $this->i18n_polyfill->tt($key, $values);
+                return $this->i18n_polyfill == null ? 
+                    $this->framework->tt($key, $values) : 
+                    $this->i18n_polyfill->tt($key, $values);
             }
             else {
-                return $this->i18n_polyfill == null ? $this->framework->tt($key) : $this->i18n_polyfill->tt($key);
+                return $this->i18n_polyfill == null ? 
+                    $this->framework->tt($key) : 
+                    $this->i18n_polyfill->tt($key);
             }
         }
         
+       	/**
+         * Returns a JSON-encoded translation for the given global language key.
+         * 
+         * @param string $key The language key.
+         * @param mixed $values The values to be used for interpolation. If the first parameter is a (sequential) array, it's members will be used and any further parameters ignored.
+         * 
+         * @return string The translation (with interpolations) encoded for assignment to JS variables.
+         */
+        public function tt_js($key, ...$values) {
+            // Proxy.
+            if (count($values)) {
+                return $this->i18n_polyfill == null ? 
+                    $this->framework->tt_js($key, $values) : 
+                    $this->i18n_polyfill->tt_js($key, $values);
+            }
+            else {
+                return $this->i18n_polyfill == null ?
+                    $this->framework->tt_js($key) : 
+                    $this->i18n_polyfill->tt_js($key);
+            }
+        }
+
         /**
          * Declares to the EM framework that language features support should be added for JavaScript.
          * Call this before using any of the features such as addToJSLanguageStore().

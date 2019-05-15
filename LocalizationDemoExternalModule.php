@@ -89,7 +89,7 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
             echo "<script>
                 // Log array elements.
                 $(function() {
-                    const em = new EMLangHelper('{$this->PREFIX}')
+                    const em = \$lang.getEMHelper('{$this->PREFIX}')
                     console.log(em.tt('countup'))
                     const arr = em.get('array')
                     arr.forEach((item) => console.log(item))

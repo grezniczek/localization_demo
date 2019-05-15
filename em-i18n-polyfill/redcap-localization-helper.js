@@ -1,6 +1,68 @@
 // @ts-check
 
-var $lang = (function () {
+if (typeof $lang == 'undefined') var $lang = (function () {
+
+    /**
+     * Provides utility functions for external modules.
+     */
+    class EMLanguageHelper {
+        /**
+         * @param {string} prefix The external module prefix
+         */
+        constructor(prefix) {
+            this.prefix = prefix;
+        }
+
+        /**
+         * Interpolates a string using the given values.
+         * (This is a shortcut for $lang.interpolate)
+         * @param {string} string The template string.
+         * @param  {...any} values The values to use for interpolation.
+         * @returns {string} The interpolated string.
+         */
+        interpolate(string, ...values) {
+            return $lang.interpolate(string, values)
+        }
+
+        /**
+         * Constructs the full language key for an EM-scoped key.
+         * @private
+         * @param {string} key The EM-scoped key.
+         * @returns {string} The full key for use in $lang.
+         */
+        _constructLanguageKey(key) {
+            // @ts-ignore $EM_LANG_PREFIX is in the global scope.
+            return `${$EM_LANG_PREFIX}${this.prefix}_${key}`
+        }
+
+        /**
+         * Get a language string (translateable text) by its key.
+         * @param {string} key The key of the language string to get.
+         * @returns {string} The string for this key or null, if the key does not exist.
+         */
+        get(key) {
+            return $lang.get(this._constructLanguageKey(key))
+        }
+
+        /**
+         * Get and interpolate a translation.
+         * @param {string} key The key for the string.
+         * @param {...any} values The values to use for the interpolation.
+         * @returns {string} The interpolated string.
+         */
+        tt(key, ...values) {
+            return $lang.tt(this._constructLanguageKey(key), values)
+        }
+
+        /**
+         * Add a language string.
+         * @param {string} key The EM-scoped key for the string.
+         * @param {string} string The string to add.
+         */
+        add(key, string) {
+            $lang.add(this._constructLanguageKey(key), string)
+        }
+    }
 
     /**
      * LanguageHelper - provides an API to manage translatable strings.
@@ -141,70 +203,17 @@ var $lang = (function () {
             result += string.substr(prevEnd);
             return result;
         }
+
+        /**
+         * Gets an instance of a language helper specific for an EM.
+         * 
+         * @param {string} prefix The unique EM prefix.
+         */
+        getEMHelper(prefix) {
+            if (typeof prefix == 'undefined' || prefix.length == 0)
+                throw "The parameter 'prefix' must be supplied.";
+            return new EMLanguageHelper(prefix);
+        }
     }
     return new LanguageHelper()
 })();
-
-/**
- * Provides utility functions for external modules.
- */
-class EMLangHelper {
-    /**
-     * @param {string} prefix The external module prefix
-     */
-    constructor(prefix) {
-        if (typeof prefix == 'undefined' || prefix.length == 0)
-            throw "The parameter 'prefix' must be supplied.";
-        this.prefix = prefix;
-    }
-
-    /**
-     * Interpolates a string using the given values.
-     * (This is a shortcut for $lang.interpolate)
-     * @param {string} string The template string.
-     * @param  {...any} values The values to use for interpolation.
-     * @returns {string} The interpolated string.
-     */
-    interpolate(string, ...values) {
-        return $lang.interpolate(string, values)
-    }
-
-    /**
-     * Constructs the full language key for an EM-scoped key.
-     * @private
-     * @param {string} key The EM-scoped key.
-     * @returns {string} The full key for use in $lang.
-     */
-    _constructLanguageKey(key) {
-        // @ts-ignore $EM_LANG_PREFIX is in the global scope.
-		return `${$EM_LANG_PREFIX}${this.prefix}_${key}`
-	}
-
-    /**
-     * Get a language string (translateable text) by its key.
-     * @param {string} key The key of the language string to get.
-     * @returns {string} The string for this key or null, if the key does not exist.
-     */
-    get(key) {
-        return $lang.get(this._constructLanguageKey(key))
-    }
-
-    /**
-     * Get and interpolate a translation.
-     * @param {string} key The key for the string.
-     * @param {...any} values The values to use for the interpolation.
-     * @returns {string} The interpolated string.
-     */
-    tt(key, ...values) {
-        return $lang.tt(this._constructLanguageKey(key), values)
-    }
-
-    /**
-     * Add a language string.
-     * @param {string} key The EM-scoped key for the string.
-     * @param {string} string The string to add.
-     */
-    add(key, string) {
-        $lang.add(this._constructLanguageKey(key), string)
-    }
-}

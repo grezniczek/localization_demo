@@ -66,7 +66,7 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
         echo "<script>
             // Localization Demo External Module
             $(function() {
-                const em = new EMLangHelper('{$this->PREFIX}')
+                const em = \$lang.getEMHelper('{$this->PREFIX}')
                 if (em.get('verbose')) {
                     console.log(em.tt('verbose_intro'))
                     console.log(em.tt('verbose_settings'))

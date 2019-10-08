@@ -67,13 +67,13 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
             // Localization Demo External Module
             $(function() {
                 const em = \$lang.getEMHelper('{$this->PREFIX}')
-                if (em.get('verbose')) {
+                if (em.tt('verbose')) {
                     console.log(em.tt('verbose_intro'))
                     console.log(em.tt('verbose_settings'))
                     console.log(em.tt('verbose_done'))
                     console.log(em.tt('verbose_task'))
                 }
-                console.{$msg_type}(em.get('msg'))
+                console.{$msg_type}(em.tt('msg'))
             })
         </script>";
 
@@ -91,7 +91,7 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
                 $(function() {
                     const em = \$lang.getEMHelper('{$this->PREFIX}')
                     console.log(em.tt('countup'))
-                    const arr = em.get('array')
+                    const arr = em.tt('array')
                     arr.forEach((item) => console.log(item))
                 });
             </script>";

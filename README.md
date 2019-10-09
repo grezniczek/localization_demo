@@ -2,6 +2,8 @@
 
 A REDCap External Module demonstrating EM localization.
 
+**Note:** This will not work properly without the upcoming External Module framework supporting EM localization support (see [this fork](https://github.com/grezniczek/redcap-external-modules)), as the backward compatibility fix currently broken.
+
 ## Requirements
 
 - REDCAP 8.1.0 or newer (tested with REDCap 8.11.11 and 9.0.0).

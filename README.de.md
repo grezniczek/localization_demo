@@ -2,6 +2,8 @@
 
 Ein Externes Modul für REDCap zur Demonstration der Lokalisierungstechniken.
 
+**Achtung**: Diese Modul funktioniert derzeit nur mit der [Entwicklungsversion](https://github.com/grezniczek/redcap-external-modules) des EM Frameworks, das Internationalisierung unterstüzt. Die Rückwärtskompatibilität ist derzeit nicht mehr gegeben, da diese zuerst an Framework-Änderungen angepasst werden muss.
+
 ## Anforderungen
 
 - REDCAP 8.1.0 oder neuer (getestet mit REDCap 8.11.11 und 9.0.0).

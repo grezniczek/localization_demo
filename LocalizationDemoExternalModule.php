@@ -46,8 +46,6 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
         
         $this->initializeJavascriptModuleObject();
 
-        $this->tt_transferToJavascriptModuleObject();
-
         if ($verbose) {
             $this->tt_transferToJavascriptModuleObject("verbose_intro", $this->tt("module_name"));
             // Ok, technically we are cheating here ;)

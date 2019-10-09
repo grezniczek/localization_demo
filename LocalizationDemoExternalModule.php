@@ -5,6 +5,7 @@ namespace RUB\LocalizationDemoExternalModule;
 require_once "em-i18n-polyfill/em-i18n-polyfill.php";
 
 use ExternalModules\TranslatableExternalModule;
+use ExternalModules\AbstractExternalModule;
 
 /**
  * ExternalModule class for Localization Demo.
@@ -12,12 +13,13 @@ use ExternalModules\TranslatableExternalModule;
  * console as info, warning, or error, depending on the module's 
  * settings.
  */
-class LocalizationDemoExternalModule extends TranslatableExternalModule {
+class LocalizationDemoExternalModule extends AbstractExternalModule {
 
 
     function __construct() {
         parent::__construct("English"); // Could omit, as English is the default.
 
+        /*
         if (!$this->hasNativeLocalizationSupport()) {
             // No native support, so we have to take care of language switching ourselves.
             $sysLang = $this->getSystemSetting("system_language");
@@ -28,12 +30,10 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
                 $this->loadLanguage($lang);
             }
         }
+        */
     }
 
     function redcap_every_page_top($project_id = null) {
-
-        // Opt-in to use the JS features.
-        $this->useJSLanguageFeatures();
 
         // Read from settings.
         $verbose = $this->getSystemSetting("verbose");
@@ -43,14 +43,19 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
         if ($msg_type == null) $msg_type = "info";
 
         $msg = $this->getSystemSetting("msg");
+        
+        $this->initializeJavascriptModuleObject();
+
+        $this->tt_transferToJavascriptModuleObject();
+
         if ($verbose) {
-            $this->addToJSLanguageStore("verbose_intro", $this->tt("module_name"));
+            $this->tt_transferToJavascriptModuleObject("verbose_intro", $this->tt("module_name"));
             // Ok, technically we are cheating here ;)
-            $this->addToJSLanguageStore("verbose_settings");
-            $this->addToJSLanguageStore("verbose_done");
+            $this->tt_transferToJavascriptModuleObject("verbose_settings");
+            $this->tt_transferToJavascriptModuleObject("verbose_done");
             // Be creative in accessing strings!
             // Note that we put this under a new name!
-            $this->addNewToJSLanguageStore("verbose_task", $this->tt("verbose_" . $msg_type));
+            $this->tt_addToJavascriptModuleObject("verbose_task", $this->tt("verbose_" . $msg_type));
         }
         // What if there is no message?
         if (!strlen($msg) && $verbose) {
@@ -58,15 +63,15 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
             $msg = $this->tt("no_msg");
         }
         // Transfer the message via the store.
-        $this->addNewToJSLanguageStore("msg", $msg);
+        $this->tt_addToJavascriptModuleObject("msg", $msg);
         // 'Misuse' the store to transfer a boolean ;)
-        $this->addNewToJSLanguageStore("verbose", $verbose);
+        $this->tt_addToJavascriptModuleObject("verbose", $verbose);
 
         // Output <script>
         echo "<script>
             // Localization Demo External Module
             $(function() {
-                const em = \$lang.getEMHelper('{$this->PREFIX}')
+                var em = {$this->framework->getJavascriptModuleObjectName()}
                 if (em.tt('verbose')) {
                     console.log(em.tt('verbose_intro'))
                     console.log(em.tt('verbose_settings'))
@@ -84,12 +89,12 @@ class LocalizationDemoExternalModule extends TranslatableExternalModule {
             $arr = array();
             for ($i = 1; $i <= $count; $i++)
                 array_push($arr, $i);
-            $this->addNewToJSLanguageStore("array", $arr);
-            $this->addToJSLanguageStore("countup", $count);
+            $this->tt_addToJavascriptModuleObject("array", $arr);
+            $this->tt_transferToJavascriptModuleObject("countup", $count);
             echo "<script>
                 // Log array elements.
                 $(function() {
-                    const em = \$lang.getEMHelper('{$this->PREFIX}')
+                    const em = {$this->framework->getJavascriptModuleObjectName()}
                     console.log(em.tt('countup'))
                     const arr = em.tt('array')
                     arr.forEach((item) => console.log(item))

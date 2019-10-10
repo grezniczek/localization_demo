@@ -17,6 +17,7 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
 
 
     function __construct() {
+        parent::__construct();
         /*
         parent::__construct("English"); // Could omit, as English is the default.
 

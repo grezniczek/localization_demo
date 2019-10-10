@@ -17,9 +17,9 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
 
 
     function __construct() {
+        /*
         parent::__construct("English"); // Could omit, as English is the default.
 
-        /*
         if (!$this->hasNativeLocalizationSupport()) {
             // No native support, so we have to take care of language switching ourselves.
             $sysLang = $this->getSystemSetting("system_language");

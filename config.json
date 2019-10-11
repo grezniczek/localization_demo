@@ -13,7 +13,7 @@
             "institution": "Ruhr-Universität Bochum"
         }
     ],
-    "framework-version": 2,
+    "framework-version": 3,
     "permissions": [
         "redcap_every_page_top"
     ],
@@ -27,7 +27,8 @@
                 { "value": "English", "name": "English" },
                 { "value": "Deutsch", "name": "Deutsch" }
             ],
-            "tt_hidden": true
+            "hidden": false,
+            "tt_hidden": "module_langselector_hidden"
         },
         {
             "key": "verbose",
@@ -68,7 +69,8 @@
                 { "value": "English", "name": "English" },
                 { "value": "Deutsch", "name": "Deutsch" }
             ],
-            "tt_hidden": true
+            "hidden": false,
+            "tt_hidden": "module_langselector_hidden"
         }
     ],
     "compatibility": {

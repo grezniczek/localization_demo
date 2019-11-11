@@ -57,7 +57,7 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
             $this->tt_addToJavascriptModuleObject("verbose_task", $this->tt("verbose_" . $msg_type));
         }
         // What if there is no message?
-        if (!strlen($msg) && $verbose) {
+        if (!strlen($msg)) {
             $msg_type = "info";
             $msg = $this->tt("no_msg");
         }

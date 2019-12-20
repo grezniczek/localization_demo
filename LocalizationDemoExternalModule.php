@@ -90,6 +90,8 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
                 array_push($arr, $i);
             $this->tt_addToJavascriptModuleObject("array", $arr);
             $this->tt_transferToJavascriptModuleObject("countup", $count);
+            $this->tt_transferToJavascriptModuleObject("test_msg");
+            $this->tt_transferToJavascriptModuleObject("placeholder_test");
             echo "<script>
                 // Log array elements.
                 $(function() {
@@ -97,6 +99,12 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
                     console.log(em.tt('countup'))
                     const arr = em.tt('array')
                     arr.forEach((item) => console.log(item))
+                    console.log(em.tt('test_msg', 'A', 'B', 'C'))
+                    console.log(em.tt('test_msg', ['A', 'B', 'C']))
+                    const obj = { 0: 'A', 1: 'B', 2: 'C' }
+                    console.log(em.tt('test_msg', obj))
+                    console.log(em.tt('placeholder_test'))
+                    console.log(em.tt('placeholder_test', 'NOT SHOWN'))
                 });
             </script>";
         }

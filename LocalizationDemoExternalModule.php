@@ -98,7 +98,9 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
                     const em = {$this->framework->getJavascriptModuleObjectName()}
                     console.log(em.tt('countup'))
                     const arr = em.tt('array')
-                    arr.forEach((item) => console.log(item))
+                    for (var i = 0; i < arr.length; i++) {
+                        console.log(arr[i])
+                    }
                     console.log(em.tt('test_msg', 'A', 'B', 'C'))
                     console.log(em.tt('test_msg', ['A', 'B', 'C']))
                     const obj = { 0: 'A', 1: 'B', 2: 'C' }

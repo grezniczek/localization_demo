@@ -17,6 +17,17 @@
     "permissions": [
         "redcap_every_page_top"
     ],
+    "links": {
+        "project": [
+            {
+                "name": "Localization Demo",
+                "tt_name": "link_name",
+                "icon": "far fa-smile",
+                "url": "pluginpage.php",
+                "show-header-and-footer": true
+            }
+        ]
+    },
     "enable-every-page-hooks-on-system-pages": true,
     "system-settings": [
         {
@@ -31,15 +42,9 @@
             "tt_hidden": "module_langselector_hidden"
         },
         {
-            "key": "verbose",
-            "name": "Be very verbose about everything that is happening",
-            "tt_name": "verbose_prompt",
-            "type": "checkbox"
-        },
-        {
-            "key": "msg",
-            "name": "Message to log to the console",
-            "tt_name": "msg_prompt",
+            "key": "msg_startup",
+            "name": "Message to log to the console upon module initialization",
+            "tt_name": "msg_startup_prompt",
             "type": "text"
         },
         {
@@ -52,12 +57,6 @@
                 { "value": "warn", "name": "Warning", "tt_name": "msg_type_warning" },
                 { "value": "error", "name": "Error", "tt_name": "msg_type_error"}
             ]
-        },
-        {
-            "key": "count",
-            "name": "Count up to",
-            "tt_name": "count_prompt",
-            "type": "text"
         }
     ],
     "project-settings": [
@@ -71,6 +70,12 @@
             ],
             "hidden": false,
             "tt_hidden": "module_langselector_hidden"
+        },
+        {
+            "key": "count",
+            "name": "Count up to",
+            "tt_name": "count_prompt",
+            "type": "text"
         }
     ],
     "compatibility": {

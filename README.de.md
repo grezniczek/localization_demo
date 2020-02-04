@@ -1,12 +1,10 @@
 # Lokalisierungs-Demo
 
-Ein Externes Modul für REDCap zur Demonstration der Lokalisierungstechniken.
-
-**Achtung**: Diese Modul funktioniert derzeit nur mit der [Entwicklungsversion](https://github.com/grezniczek/redcap-external-modules) des EM Frameworks, das Internationalisierung unterstüzt. Die Rückwärtskompatibilität ist derzeit nicht mehr gegeben, da diese zuerst an Framework-Änderungen angepasst werden muss.
+Ein Externes Modul zur Demonstration der Lokalisierungstechniken im REDCap EM Framework.
 
 ## Anforderungen
 
-- REDCAP 8.1.0 oder neuer (getestet mit REDCap 8.11.11 und 9.0.0).
+- REDCAP 9.5.0 oder neuer (getestet mit REDCap 9.7.0).
 
 ## Installation
 
@@ -15,10 +13,9 @@ Ein Externes Modul für REDCap zur Demonstration der Lokalisierungstechniken.
 
 ## Configuration
 
-- Legen Sie den Text für eine Nachricht, die in der Browser-Konsole ausgegeben wird (als Infotext, Warnung oder Fehlermeldung).
-- Bestimmen Sie, wie redselig dieses Modul ist (es erzählt allerdings viel Nonsens).
-- Lassen Sie das Modul zeigen, dass es von 1 bis zur festgelegten Zahl hochzählen kann.
+- **System:** Legen Sie den Text für eine Nachricht fest, die in der Browser-Konsole ausgegeben wird (als Infotext, Warnung oder Fehlermeldung).
+- **Projekt:** Legen Sie die Obergrenze für das auf Knopfdruck durchgeführte Hochzählen fest.
 
 ## Ergebnis
 
-Wenn das Modul aktiviert ist, gibt es, abhängig von den Einstellungen, einige Dinge auf der Browserkonsole aus. Sehr unspektakulär - oder etwa doch nicht?
+Wenn das Modul aktiviert ist, steht eine neue Plugin-Seite (links im Menü) zur Verfügung, und abhängig von den Einstellungen, werden einige Dinge auf der Browserkonsole ausgegeben.

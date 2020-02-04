@@ -2,11 +2,9 @@
 
 A REDCap External Module demonstrating EM localization.
 
-**Note:** This will not work properly without the upcoming External Module framework supporting EM localization support (see [this fork](https://github.com/grezniczek/redcap-external-modules)), as the backward compatibility fix currently broken.
-
 ## Requirements
 
-- REDCAP 8.1.0 or newer (tested with REDCap 8.11.11 and 9.0.0).
+- REDCAP 9.5.0 or newer (tested with REDCap 9.7.0).
 
 ## Installation
 
@@ -15,10 +13,11 @@ A REDCap External Module demonstrating EM localization.
 
 ## Configuration
 
-- Set the text of a message and how it should be logged to the browser's console (info, warning, error).
-- Set how verbose the module is about the whole process (mostly nonsense, though).
-- Let the module show that it can count up from 1 to a given number.
+- **System:** Set the text of a message and how it should be logged to the browser's console (info, warning, error).
+- **Project:** Set a number for the module to count up to when requested.
 
 ## Effect
 
-When enabled, it outputs some stuff -depending on the settings- to the browser's console. Very unspectacular, really, if it weren't.
+When enabled, it outputs some stuff -depending on the settings- to the browser's console, and provides a plugin page.
+
+Have fun!

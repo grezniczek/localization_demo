@@ -4,7 +4,7 @@ A REDCap External Module demonstrating EM localization.
 
 ## Requirements
 
-- REDCAP 9.5.0 or newer (tested with REDCap 9.7.0).
+- REDCAP 9.1.0 or newer (tested with REDCap 9.7.1 and 9.1.24 LTS).
 
 ## Installation
 

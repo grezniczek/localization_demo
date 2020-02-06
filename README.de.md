@@ -4,7 +4,7 @@ Ein Externes Modul zur Demonstration der Lokalisierungstechniken im REDCap EM Fr
 
 ## Anforderungen
 
-- REDCAP 9.5.0 oder neuer (getestet mit REDCap 9.7.0).
+- REDCAP 9.1.0 oder neuer (getestet mit REDCap 9.7.1 und 9.1.24 LTS).
 
 ## Installation
 

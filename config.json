@@ -13,7 +13,7 @@
             "institution": "Ruhr-Universität Bochum"
         }
     ],
-    "framework-version": 3,
+    "framework-version": 2,
     "permissions": [
         "redcap_every_page_top"
     ],
@@ -22,7 +22,7 @@
             {
                 "name": "Localization Demo",
                 "tt_name": "link_name",
-                "icon": "far fa-smile",
+                "icon": "flag_green",
                 "url": "pluginpage.php",
                 "show-header-and-footer": true
             }
@@ -81,7 +81,7 @@
     "compatibility": {
         "php-version-min": "5.6.0",
         "php-version-max": "",
-        "redcap-version-min": "9.5.0",
+        "redcap-version-min": "9.1.0",
         "redcap-version-max": ""
      }
 }

@@ -3,7 +3,6 @@
 // This is a simple plugin page showcasing how strings can be processed through the 
 // EM framework i18n features.
 
-
 // Let's use a shortcut to the EM Framework object to save some typing.
 $fw = $module->framework;
 

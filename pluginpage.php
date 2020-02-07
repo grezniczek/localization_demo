@@ -3,9 +3,18 @@
 // This is a simple plugin page showcasing how strings can be processed through the 
 // EM framework i18n features.
 
-// Let's get some data from the current project, like the
-// number of records.
+// Let's use a shortcut to the EM Framework object to save some typing.
+$fw = $module->framework;
 
+
+// Set the language -- this can be removed as soon as the minimal REDCap version 
+// supported by this module is 9.5.0 or greater.
+$module->set_language($fw->getProjectId());
+
+
+// Let's get some data from the current project, like the number of records.
+// This is only to have something to show, and therefore a need for some labels,
+// which of course should be translatable.
 $record_id_field = REDCap::getRecordIdField();
 $instruments = REDCap::getInstrumentNames();
 $n_instruments = count($instruments);
@@ -21,32 +30,34 @@ if ($count == null || !is_numeric($count)) $count = 0;
 $count = abs($count);
 
 // Generate the url for the JavaScript file.
-$js = $module->framework->getUrl("js/fun.js");
+$js = $fw->getUrl("js/fun.js");
 
-// Generate page content:
+// Generate the page content. This is rather boring, except that we use tt() to
+// output our strings.
 ?>
 
 <script src="<?=$js?>"></script>
-<h3><?=$module->tt("module_name")?></h3>
-<p><?=$module->tt("module_desc")?></p>
-<h5><?=$module->tt("info_header")?></h5>
+<h3><?=$fw->tt("module_name")?></h3>
+<p><?=$fw->tt("module_desc")?></p>
+<h5><?=$fw->tt("info_header")?></h5>
 <ul>
-    <li><?=$module->tt("record_id", $record_id_field)?></li>
-    <li><?=$module->tt($instruments_info_key, $n_instruments, $n_fields)?></li>
+    <li><?=$fw->tt("record_id", $record_id_field)?></li>
+    <li><?=$fw->tt($instruments_info_key, $n_instruments, $n_fields)?></li>
 </ul>
 
 <?php 
 // Only show the fun part if the number set via config is greater than zero.
 if ($count > 0) {
     ?>
-    <p><b><?=$module->tt("fun_title")?></b></p>
+    <p><b><?=$fw->tt("fun_title")?></b></p>
     <button class="btn btn-primary btn-lg" onclick="doTheFunnyCountingInTheConsole()"><i class="far fa-smile"></i></button>
-    <p><?=$module->tt("fun_explained", $count)?></p>
+    <p><?=$fw->tt("fun_explained", $count)?></p>
     <?php 
 
     // As we want to showcase shuffling data from PHP to JavaScript, we
     // involve the JavaScriptModuleObject.
-    $module->initializeJavascriptModuleObject();
+    // It is important to call this via the framework object when using the polyfill.
+    $fw->initializeJavascriptModuleObject();
 
     // To be extra clever, we do the complicated math in PHP and use JS
     // only to output the results.
@@ -55,6 +66,6 @@ if ($count > 0) {
         array_push($arr, $i);
     }
     // Now make the results of this heavy lifting available via the JMO:
-    $module->tt_addToJavascriptModuleObject("array", $arr);
-    $module->tt_transferToJavascriptModuleObject("countup", $count);
+    $fw->tt_addToJavascriptModuleObject("array", $arr);
+    $fw->tt_transferToJavascriptModuleObject("countup", $count);
 }

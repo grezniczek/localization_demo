@@ -1,5 +1,7 @@
 <?php
 
+namespace REDCap\CommunityTools;
+
 // Make sure these classes are only defined once.
 if (!class_exists("EMi18nPolyfill")) {
 

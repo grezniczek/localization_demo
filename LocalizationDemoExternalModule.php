@@ -7,6 +7,7 @@ use ExternalModules\AbstractExternalModule;
 // Include this polyfill for backward compatibility with REDCap versions below 9.5.0.
 // It is not needed otherwise.
 require "em-i18n-polyfill/em-i18n-polyfill.php";
+use \REDCap\CommunityTools\EMi18nPolyfill;
 
 /**
  * ExternalModule class for Localization Demo.
@@ -22,7 +23,7 @@ class LocalizationDemoExternalModule extends AbstractExternalModule {
 
         // Initialize EM i18n backward-compatibility support.
         // This is only needed if the module must run on REDCap versions below 9.5.0.
-        $this->i18n_enabled = \EMi18nPolyfill::initialize($this);
+        $this->i18n_enabled = EMi18nPolyfill::initialize($this);
     }
 
     /**

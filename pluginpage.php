@@ -1,7 +1,7 @@
 <?php
 
-// Plugin page showcasing module translation.
-
+// This is a simple plugin page showcasing how strings can be processed through the 
+// EM framework i18n features.
 
 // Let's get some data from the current project, like the
 // number of records.
